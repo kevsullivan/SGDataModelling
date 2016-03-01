@@ -9,6 +9,89 @@
 /************************************************************/
 
 
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetDateOfBirth') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDateOfBirth
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDateOfBirth
+	@UserId int
+AS
+SELECT
+	CONVERT(date, PropertyValue) 
+FROM 
+	{databaseOwner}{objectQualifier}UserProfile 
+WHERE 
+	PropertyDefinitionID = (
+							SELECT 
+								PropertyDefinitionID 
+							FROM 
+								{databaseOwner}{objectQualifier}ProfilePropertyDefinition 
+							WHERE 
+								PropertyName ='Date_Of_Birth'
+							)
+AND
+	UserId = @UserId
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg
+	@UserId int
+AS
+SELECT
+	CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0))
+FROM 
+	{databaseOwner}{objectQualifier}UserProfile 
+WHERE 
+	PropertyDefinitionID = (
+							SELECT 
+								PropertyDefinitionID 
+							FROM 
+								{databaseOwner}{objectQualifier}ProfilePropertyDefinition 
+							WHERE 
+								PropertyName ='Date_Of_Birth'
+							)
+AND
+	UserId = @UserId
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriends') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriends
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriends
+	@UserId int
+AS
+SELECT 
+	Count(*) 
+FROM 
+	{databaseOwner}{objectQualifier}UserRelationships 
+WHERE 
+	UserID = @UserId OR RelatedUserID = @UserId
+AND 
+	Status = 2 AND RelationshipID = 1
+
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers
+	@UserId int
+AS
+SELECT 
+	Count(*) 
+FROM 
+	{databaseOwner}{objectQualifier}UserRelationships 
+WHERE 
+	UserID = @UserId OR RelatedUserID = @UserId
+AND 
+	Status = 2 AND RelationshipID = 2
+
+GO
 
 /************************************************************/
 /*****              SqlDataProvider                     *****/
