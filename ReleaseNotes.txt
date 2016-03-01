@@ -8,9 +8,9 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version CHANGEME</b><br /><br />
+		<b>Version 00.00.01</b><br /><br />
 	</p>
-	<p>Description about version.</p>
+	<p>Demo Version for displaying consumption of data and displaying to end user. Text Only</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
