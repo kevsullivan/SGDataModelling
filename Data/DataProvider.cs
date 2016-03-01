@@ -80,7 +80,17 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         //public abstract IDataReader GetItem(int itemId);        
 
+        //Date if Birth Removed for now - Datamodelling should focus on retrieving numeric values for graphing only.
+        //TODO: Extra Queries can be brought in and handled by new controllers/classes if required.
+        //public abstract IDataReader GetDateOfBirth(int userId);
 
+        public abstract IDataReader GetAgeAvg(int userId);
+
+        public abstract IDataReader GetNumberFriends(int userId);
+
+        public abstract IDataReader GetNumberFollowers(int userId);
+
+        public abstract IDataReader GetNumberUsers();
         #endregion
 
     }

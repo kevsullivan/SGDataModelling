@@ -17,7 +17,7 @@ CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDateOfBirth
 	@UserId int
 AS
 SELECT
-	CONVERT(date, PropertyValue) 
+	CONVERT(date, PropertyValue) AS QueryResult
 FROM 
 	{databaseOwner}{objectQualifier}UserProfile 
 WHERE 
@@ -41,7 +41,7 @@ CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg
 	@UserId int
 AS
 SELECT
-	CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0))
+	CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0)) AS QueryResult
 FROM 
 	{databaseOwner}{objectQualifier}UserProfile 
 WHERE 
@@ -65,7 +65,7 @@ CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriend
 	@UserId int
 AS
 SELECT 
-	Count(*) 
+	Count(*) AS QueryResult
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships 
 WHERE 
@@ -83,13 +83,26 @@ CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollow
 	@UserId int
 AS
 SELECT 
-	Count(*) 
+	Count(*) AS QueryResult
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships 
 WHERE 
 	UserID = @UserId OR RelatedUserID = @UserId
 AND 
 	Status = 2 AND RelationshipID = 2
+
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}Users
 
 GO
 

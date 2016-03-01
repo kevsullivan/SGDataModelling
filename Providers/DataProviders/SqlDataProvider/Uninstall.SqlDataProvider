@@ -23,6 +23,10 @@ GO
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAgeAvg
 GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers
+GO
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/

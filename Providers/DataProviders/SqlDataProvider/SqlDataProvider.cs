@@ -11,8 +11,11 @@
 */
 
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Framework.Providers;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace DotNetNuke.Modules.SGDataModelling.Data
 {
@@ -143,7 +146,31 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         //    return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "spGetItemsForUser", userId, portalId);
         //}
 
+        public override IDataReader GetAgeAvg(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix+"GetAgeAvg", new SqlParameter("@UserId", userId));
+        }
 
+        public override IDataReader GetNumberFriends(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFriends", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetNumberFollowers(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFollowers", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetNumberUsers()
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");
+        }
+        /*
+        public override IDataReader GetDateOfBirth(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetDateOfBirth", new SqlParameter("@UserId", userId));
+        }
+        */
         #endregion
 
     }

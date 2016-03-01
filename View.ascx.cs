@@ -15,6 +15,7 @@ using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.Modules.SGDataModelling.Components;
 using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.SGDataModelling
@@ -38,7 +39,13 @@ namespace DotNetNuke.Modules.SGDataModelling
         {
             try
             {
+                //TODO Call all queries here and populate asp view html with date. This is also where JS libraries can be called for graphing.
+                if (Page.IsPostBack) return;
 
+                txtAgeAvg.Text = QueryController.GetAgeAvg(UserId).QueryValue.ToString();
+                txtNumberFollowers.Text = QueryController.GetNumberFollowers(UserId).QueryValue.ToString();
+                txtNumberFriends.Text = QueryController.GetNumberFriends(UserId).QueryValue.ToString();
+                txtNumberUsers.Text = QueryController.GetNumberUsers(UserId).QueryValue.ToString();
             }
             catch (Exception exc) //Module failed to load
             {
