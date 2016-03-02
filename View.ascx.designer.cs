@@ -83,14 +83,5 @@ namespace DotNetNuke.Modules.SGDataModelling {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNumberUsers;
-        
-        /// <summary>
-        /// chtRelationships control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.DataVisualization.Charting.Chart chtRelationships;
     }
 }

@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="View.ascx.cs" Inherits="DotNetNuke.Modules.SGDataModelling.View" %>
 <%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
-<script src="./Chart.min.js"></script>
+<script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/Chart.js"></script>
 
 <br/>
 <asp:label ID="lblAgeAvg" runat="server" Text="Your Age Rounded Up: "></asp:label>
@@ -20,6 +20,8 @@
 <br />
 <br />
 <canvas id="relationship" width="500" height="400"></canvas>
+<%-- ReSharper disable once PossiblyUnassignedProperty .Bar --%>
+
 <script>
     var relationshipData = {
         labels: ["Users", "Friends", "Followers"],
@@ -27,27 +29,40 @@
             {
                 label: 'Over 18 #',
                 fillColor: '#382765',
-                data: [2500, 1902, 1041]
+                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
             },
-        {
-            label: 'Under 18 #',
-            fillColor: '#7BC225',
-            data: [3104, 1689, 1318]
-        }
+            {
+                label: 'Under 18 #',
+                fillColor: '#7BC225',
+                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+            }
         ]
     }
     var relationships = document.getElementById('relationship').getContext('2d');
     new Chart(relationships).Bar(relationshipData);
 </script>
-<!--
-<asp:Chart ID="chtRelationships" runat="server">
-    <series>
-        <asp:Series Name="Relationships" YValueType="Int32" ChartType="Column" ChartArea="MainChartArea">
-        </asp:Series>
-    </series>
-    <chartareas>
-        <asp:ChartArea Name="MainChartArea">
-        </asp:ChartArea>
-    </chartareas>
-</asp:Chart>
-    -->
+
+<button id="test" Text="Refresh Graph"onclick="refresh_graph()"></button>
+
+<script>
+    refresh_graph = new function()
+    {
+        var relationshipData = {
+        labels: ["Users", "Friends", "Followers"],
+        datasets: [
+            {
+                label: 'Over 18 #',
+                fillColor: '#382765',
+                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+            },
+            {
+                label: 'Under 18 #',
+                fillColor: '#7BC225',
+                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+            }
+        ]
+    }
+    var relationships = document.getElementById('relationship').getContext('2d');
+    new Chart(relationships).Bar(relationshipData);
+    }
+</script>

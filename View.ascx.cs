@@ -51,12 +51,13 @@ namespace DotNetNuke.Modules.SGDataModelling
                 txtNumberFollowers.Text = numFollowers.ToString();
                 txtNumberFriends.Text = numFriends.ToString();
                 txtNumberUsers.Text = numUsers.ToString();
-
-                var relationshipData = chtRelationships.Series["Relationships"];
+                /*
+                var relationshipData = Relationships.Series["Relationships"];
 
                 relationshipData.Points.AddXY("Total Users On Site", numUsers);
                 relationshipData.Points.AddXY("Total Friends", numFriends);
                 relationshipData.Points.AddXY("Total Follower", numFollowers);
+                */
             }
             catch (Exception exc) //Module failed to load
             {

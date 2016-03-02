@@ -8,13 +8,13 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 00.00.03 Removed use of Microsoft charts due to conflicts in webconfig added use of Chart.js currently using hardcoded values correct data in future release</b><br /><br />
+		<b>Version 00.00.07 Updated reference for Charts.js to be external to website and implemented chart for basic user info on website.</b><br /><br />
 	</p>
 	<p>Demo Version First Graph added using Microsofts Charts - Need to test on main site possible Temp Image Storage Issue</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>List</li>
+			<li>Charts.js source moved to external location to resolve issues with local module</li>
 			<li>of</li>
 			<li>bug</li>
 			<li>fixes</li>
