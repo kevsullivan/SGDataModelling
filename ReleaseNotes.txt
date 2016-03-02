@@ -8,9 +8,9 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 00.00.01</b><br /><br />
+		<b>Version 00.00.03 Removed use of Microsoft charts due to conflicts in webconfig added use of Chart.js currently using hardcoded values correct data in future release</b><br /><br />
 	</p>
-	<p>Demo Version for displaying consumption of data and displaying to end user. Text Only</p>
+	<p>Demo Version First Graph added using Microsofts Charts - Need to test on main site possible Temp Image Storage Issue</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>

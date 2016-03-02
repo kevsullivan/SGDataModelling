@@ -42,10 +42,21 @@ namespace DotNetNuke.Modules.SGDataModelling
                 //TODO Call all queries here and populate asp view html with date. This is also where JS libraries can be called for graphing.
                 if (Page.IsPostBack) return;
 
-                txtAgeAvg.Text = QueryController.GetAgeAvg(UserId).QueryValue.ToString();
-                txtNumberFollowers.Text = QueryController.GetNumberFollowers(UserId).QueryValue.ToString();
-                txtNumberFriends.Text = QueryController.GetNumberFriends(UserId).QueryValue.ToString();
-                txtNumberUsers.Text = QueryController.GetNumberUsers(UserId).QueryValue.ToString();
+                var avgAge = QueryController.GetAgeAvg(UserId).QueryValue;;
+                var numFollowers = QueryController.GetNumberFollowers(UserId).QueryValue;
+                var numFriends = QueryController.GetNumberFriends(UserId).QueryValue;
+                var numUsers = QueryController.GetNumberUsers().QueryValue;
+
+                txtAgeAvg.Text = avgAge.ToString();
+                txtNumberFollowers.Text = numFollowers.ToString();
+                txtNumberFriends.Text = numFriends.ToString();
+                txtNumberUsers.Text = numUsers.ToString();
+
+                var relationshipData = chtRelationships.Series["Relationships"];
+
+                relationshipData.Points.AddXY("Total Users On Site", numUsers);
+                relationshipData.Points.AddXY("Total Friends", numFriends);
+                relationshipData.Points.AddXY("Total Follower", numFollowers);
             }
             catch (Exception exc) //Module failed to load
             {
