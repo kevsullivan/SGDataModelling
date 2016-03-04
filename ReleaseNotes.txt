@@ -8,16 +8,16 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 00.00.07 Updated reference for Charts.js to be external to website and implemented chart for basic user info on website.</b><br /><br />
+		<b>Version 00.00.11 Upgraded SqlDataProvider Script to install new stored procedures required for v00.00.08 </b><br /><br />
 	</p>
-	<p>Demo Updated functionality. Node network graphs added now. Allows visualiation of connections accross the platform and ease of access to connected users profiles.</p>
+	<p>Demo v00.00.08 was released with SqlDataProvider Script that contained relevant stored procedures but version was out of date so failed to install procedures in production site this relase contains updated v0.00.08SqlDataprovider
+	that will upgrade stored procedures. It also fixes a bug in network connection node graph where results shown were reverse opposite of what they should have been.
+	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>Charts.js source moved to external location to resolve issues with local module</li>
-			<li>of</li>
-			<li>bug</li>
-			<li>fixes</li>
+			<li>Fixes Stored Procedure issue from pre v00.00.10</li>
+			<li>Fixes issue with node connection graphs showing wrong data.</li>
 	</ul>
 	
 </div>

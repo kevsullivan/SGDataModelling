@@ -97,18 +97,14 @@
 
     for (var key in edgesDict) {
         var details = edgesDict[key].split(",");
+        var tempdetails = details;
         // Edges colored Green for Friends and Red for followers. Followers also have an arrow pointing to show who is follower/folowee or both if that is the case.
         edges.add([
-            { from: parseInt(details[0]), to: parseInt(details[1]), color: details[2].localeCompare("Friend") ? { color: 'green' } : { color: 'red' }, arrows: details[2].localeCompare("Follower") ? 'to' : '' }
+            { from: parseInt(details[0]), to: parseInt(details[1]), color: details[2] == "Friend" ? { color: 'green' } : { color: 'red' }, arrows: details[2] == "Follower" ? 'to' : '' }
         ]);
     }
 
     var container = document.getElementById('networks');
-    var canvas = document.getElementById('networksCanvas');
-    var context = canvas.getContext("2d");
-    context.fillStyle = "blue";
-    context.font = "bold 16px Arial";
-    context.fillText("Zibri", 100, 100);
     var data = {
         nodes: nodes,
         edges: edges
