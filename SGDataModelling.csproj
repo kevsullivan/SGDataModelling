@@ -66,8 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\NetworkData.cs" />
     <Compile Include="Components\QueryController.cs" />
     <Compile Include="Components\QueryResult.cs" />
+    <Compile Include="Components\RelationshipLinks.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="SGDataModellingModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>

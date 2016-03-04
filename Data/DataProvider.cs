@@ -91,6 +91,11 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         public abstract IDataReader GetNumberFollowers(int userId);
 
         public abstract IDataReader GetNumberUsers();
+
+        public abstract IDataReader GetRelationshipUsers();
+
+        public abstract IDataReader GetRelationshipLinks();
+
         #endregion
 
     }

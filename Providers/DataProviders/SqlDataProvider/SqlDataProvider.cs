@@ -165,6 +165,16 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");
         }
+
+        public override IDataReader GetRelationshipUsers()
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetRelationshipUsers");
+        }
+
+        public override IDataReader GetRelationshipLinks()
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetRelationshipLinks");
+        }
         /*
         public override IDataReader GetDateOfBirth(int userId)
         {
