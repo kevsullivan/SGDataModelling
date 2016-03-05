@@ -4,6 +4,8 @@
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/d3.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/vis.js"></script>
 <script src="http://demos.inspirationalpixels.com/Accordion-with-HTML-CSS-&-jQuery/accordion.js"></script>
+<!-- This import of jquery is causing a conflict with DNN standard version when module is loaded to a page - its not site breaking just means admin controls require entering new page first
+    the main problem is without this the accordian doesn't work as is. So need to implement different handling for the accordian. -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!--
 <asp:TextBox ID="txtAgeAvg" runat="server"></asp:TextBox>
@@ -15,24 +17,36 @@
 <!-- Construct overall container of graphs here - Design Area -->
 <div class="accordion">
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-1">User Data</a>
+        <a id="networkContainer" class="accordion-section-title" href="#accordion-1">User Data</a>
         <div id="accordion-1" class="accordion-section-content">
-            <div style="height: 400px; width: 50%"class="floatLeft" id="networks"><canvas id="networksCanvas" width="500" height="400"></canvas></div>
-    
-            <canvas id="relationship" width="500" height="400" class="floatRight"></canvas>
-    
-            <canvas id="replyData" width="300" height="250" class="floatLeft"></canvas>
-            <div id="js-legend1" class="chart-legend"></div>
-            <canvas id="postsData" width="300" height="250" class="floatLeft"></canvas>
-            <div id="js-legend2" class="chart-legend"></div>
-    
-            <canvas id="relationship2" width="500" height="400" class="floatRight"></canvas>
+            <input id="networkButton" type="button" value="Center Node Network"/>
+            <label style="color: green">Friend Links</label>
+            <label style="color: red">Follower Links</label>
+            <div style="height: 400px; width: 50%" id="networks">
+                <canvas id="networksCanvas" width="500" height="350"></canvas>
+            </div>
+            <div style="height: 400px; width: 50%">
+                <canvas id="relationship" width="500" height="350"></canvas>
+            </div>
+            
+            <div>
+                <canvas id="filler" width="50" height="50"></canvas>
+            </div>
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-2">Developer Data</a>
+        <a class="accordion-section-title" href="#accordion-2">Content Data</a>
         <div id="accordion-2" class="accordion-section-content">
-            <p>This is where the developer data will be displayed</p>
+            
+            <div style="height: 400px; width: 50%">
+                <canvas id="replyData"width="500" height="350"></canvas>
+            </div>
+            <div id="js-legend1" ></div>
+             <div style="height: 400px; width: 50%">
+                <canvas id="postsData" width="500" height="350"></canvas>
+            </div>
+            <div id="js-legend2"></div>
+
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
 </div><!--end .accordion-->
@@ -59,30 +73,6 @@
         ]
     }
     var relationships = document.getElementById('relationship').getContext('2d');
-    new Chart(relationships).Bar(relationshipData);
-</script>
-
-<!-- Script to get high level data of total users, friends and followers on website -->
-<script>
-    var relationshipData = {
-        labels: ["Users", "Friends", "Followers"],
-        // Data set for users both over and under 18 years of age.
-        datasets: [
-            {
-                label: 'Over 18 #',
-                fillColor: '#382765',
-                // Data is pulled from code behind.
-                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
-            },
-            {
-                label: 'Under 18 #',
-                fillColor: '#7BC225',
-                // Data is pulled from code behind.
-                data: [<%= QueryController.GetNumberUsers().QueryValue%>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
-            }
-        ]
-    }
-    var relationships = document.getElementById('relationship2').getContext('2d');
     new Chart(relationships).Bar(relationshipData);
 </script>
 
@@ -191,6 +181,9 @@
         edges: edges
     };
     var network = new vis.Network(container, data, {});
+    document.getElementById("networkButton").onclick = function () { network.fit(); };
+    //network.fit();
+    var scaled = false;
     network.on("click", function (params) {
             // Redirect to activity feed/profile page of selected user on click.
             if (params["nodes"].length > 0) {
@@ -198,30 +191,28 @@
             }
         }
     )
-</script>
-<script>
     $(document).ready(function() {
-        function close_accordion_section() {
-            $('.accordion .accordion-section-title').removeClass('active');
-            $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
-        }
- 
-        $('.accordion-section-title').click(function(e) {
-            // Grab current anchor value
-            var currentAttrValue = $(this).attr('href');
- 
-            if($(e.target).is('.active')) {
-                close_accordion_section();
-            }else {
-                close_accordion_section();
- 
-                // Add active class to section title
-                $(this).addClass('active');
-                // Open up the hidden content panel
-                $('.accordion ' + currentAttrValue).slideDown(300).addClass('open'); 
+            function close_accordion_section() {
+                $('.accordion .accordion-section-title').removeClass('active');
+                $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
             }
  
-            e.preventDefault();
+            $('.accordion-section-title').click(function(e) {
+                // Grab current anchor value
+                var currentAttrValue = $(this).attr('href');
+                if($(e.target).is('.active')) {
+                    close_accordion_section();
+                }else {
+                    close_accordion_section();
+ 
+                    // Add active class to section title
+                    $(this).addClass('active');
+                    // Open up the hidden content panel
+                    $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
+                    network.fit();
+                }
+ 
+                e.preventDefault();
+            });
         });
-    });
 </script>
