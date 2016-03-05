@@ -166,6 +166,21 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserCommunityPostsCount", new SqlParameter("@UserId", userId));
         }
 
+        public override IDataReader GetCountRepliesFromFriends(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetCountRepliesFromFriends", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetCountRepliesFromFollowers(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetCountRepliesFromFollowers", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetCountRepliesFromNonConnected(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetCountRepliesFromNonConnected", new SqlParameter("@UserId", userId));
+        }
+        
         public override IDataReader GetNumberUsers()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");
@@ -180,6 +195,9 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetRelationshipLinks");
         }
+
+        
+        
         /*
         public override IDataReader GetDateOfBirth(int userId)
         {

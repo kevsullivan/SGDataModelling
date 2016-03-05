@@ -31,6 +31,24 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
         {
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetUserCommunityPostsCount(userId));
         }
+        /*
+        // TODO: Get Reply Counts for friends needs a little work on its stored procedures. Mainly to handle the issue of pending friends 
+        // TODO: right now they will show as friends instead of non connected as they should be, this is just how pending friends handles by defaults (marked as friend with status pending)
+        */
+        public static QueryResult GetCountRepliesFromFriends(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetCountRepliesFromFriends(userId));
+        }
+
+        public static QueryResult GetCountRepliesFromFollowers(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetCountRepliesFromFollowers(userId));
+        }
+
+        public static QueryResult GetCountRepliesFromNonConnected(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetCountRepliesFromNonConnected(userId));
+        }
 
         public static QueryResult GetNumberUsers()
         {
