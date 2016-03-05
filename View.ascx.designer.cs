@@ -13,15 +13,6 @@ namespace DotNetNuke.Modules.SGDataModelling {
     public partial class View {
         
         /// <summary>
-        /// lblAgeAvg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAgeAvg;
-        
-        /// <summary>
         /// txtAgeAvg control.
         /// </summary>
         /// <remarks>
@@ -29,15 +20,6 @@ namespace DotNetNuke.Modules.SGDataModelling {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAgeAvg;
-        
-        /// <summary>
-        /// lblNumberFriends control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNumberFriends;
         
         /// <summary>
         /// txtNumberFriends control.
@@ -49,15 +31,6 @@ namespace DotNetNuke.Modules.SGDataModelling {
         protected global::System.Web.UI.WebControls.TextBox txtNumberFriends;
         
         /// <summary>
-        /// lblNumberFollowers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNumberFollowers;
-        
-        /// <summary>
         /// txtNumberFollowers control.
         /// </summary>
         /// <remarks>
@@ -67,15 +40,6 @@ namespace DotNetNuke.Modules.SGDataModelling {
         protected global::System.Web.UI.WebControls.TextBox txtNumberFollowers;
         
         /// <summary>
-        /// lblNumberUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNumberUsers;
-        
-        /// <summary>
         /// txtNumberUsers control.
         /// </summary>
         /// <remarks>
@@ -83,5 +47,14 @@ namespace DotNetNuke.Modules.SGDataModelling {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNumberUsers;
+        
+        /// <summary>
+        /// txtUserId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserId;
     }
 }

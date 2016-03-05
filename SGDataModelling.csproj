@@ -66,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\HelperClass.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Components\NetworkData.cs" />
     <Compile Include="Components\QueryController.cs" />
     <Compile Include="Components\QueryResult.cs" />
@@ -112,7 +115,9 @@
     <Content Include="View.ascx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SGDataModelling.dnn" />
+    <Content Include="SGDataModelling.dnn">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="BuildScripts\ModulePackage.targets" />

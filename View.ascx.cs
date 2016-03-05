@@ -52,8 +52,9 @@ namespace DotNetNuke.Modules.SGDataModelling
                 txtNumberFollowers.Text = numFollowers.ToString();
                 txtNumberFriends.Text = numFriends.ToString();
                 txtNumberUsers.Text = numUsers.ToString();
+                txtUserId.Text = UserId.ToString();
 
-                
+
                 /*
                 var relationshipData = Relationships.Series["Relationships"];
 

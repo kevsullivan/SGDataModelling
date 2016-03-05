@@ -161,6 +161,11 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFollowers", new SqlParameter("@UserId", userId));
         }
 
+        public override IDataReader GetUserCommunityPostsCount(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserCommunityPostsCount", new SqlParameter("@UserId", userId));
+        }
+
         public override IDataReader GetNumberUsers()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");

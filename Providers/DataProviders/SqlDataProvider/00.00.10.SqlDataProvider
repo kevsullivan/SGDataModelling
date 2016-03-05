@@ -138,6 +138,22 @@ FROM
 
 GO
 
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}Journal
+WHERE
+	UserId = @UserId
+
+GO
+
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/

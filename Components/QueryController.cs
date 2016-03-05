@@ -27,6 +27,11 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberFollowers(userId));
         }
 
+        public static QueryResult GetUserCommunityPostsCount(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetUserCommunityPostsCount(userId));
+        }
+
         public static QueryResult GetNumberUsers()
         {
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberUsers());

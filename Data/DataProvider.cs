@@ -90,6 +90,8 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetNumberFollowers(int userId);
 
+        public abstract IDataReader GetUserCommunityPostsCount(int userId);
+
         public abstract IDataReader GetNumberUsers();
 
         public abstract IDataReader GetRelationshipUsers();
