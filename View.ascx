@@ -49,8 +49,87 @@
 
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
+    <div class="accordion-section">
+        <a class="accordion-section-title" href="#accordion-3">Developer Data</a>
+        <div id="accordion-3" class="accordion-section-content">
+            
+            <div style="height: 400px; width: 50%">
+                <canvas id="annualData"width="500" height="350"></canvas>
+            </div>
+             <div style="height: 400px; width: 50%">
+                <canvas id="prefData" width="500" height="350"></canvas>
+            </div>
+            
+            <div>
+                <canvas id="filler2" width="50" height="50"></canvas>
+            </div>
+        </div><!--end .accordion-section-content-->
+    </div><!--end .accordion-section-->
 </div><!--end .accordion-->
 
+<!-- Script to get stats on developers catalog downloads of the last year -->
+<script>
+    var gameData = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: "Game 1",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56, 55, 40, 15, 55, 62, 43, 71]
+            },
+            {
+                label: "Game 2",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 86, 27, 90, 23, 52, 101, 15, 32]
+            }
+        ]
+    };
+    var anualData = document.getElementById('annualData').getContext('2d');
+    var options = {};
+    new Chart(anualData).Line(gameData, options);
+</script>
+
+<!-- Script to get stats genres the developer favors vs what users favor -->
+<script>
+    var data = {
+        labels: ["FPS", "Action", "Adventure", "Indie", "Massive Multiplayer", "Racing", "RPG", "Sim", "Sports", "Strategy"],
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 90, 81, 56, 55, 40, 32, 91, 10]
+            },
+            {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 96, 27, 100, 53, 18, 82]
+            }
+        ]
+    };
+    var options = {}
+    var preferences = document.getElementById('prefData').getContext('2d');
+    new Chart(preferences).Radar(data, options);
+</script>
 
 <!-- Script to get high level data of total users, friends and followers on website -->
 <script>
