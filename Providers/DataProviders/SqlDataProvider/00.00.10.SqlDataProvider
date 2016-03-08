@@ -169,6 +169,116 @@ WHERE
 	UserId = @UserId
 
 GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}Journal_Comments AS c
+INNER JOIN
+	{databaseOwner}{objectQualifier}Journal AS j
+ON
+	c.JournalId = j.JournalId
+WHERE
+	c.UserId
+IN
+(
+	SELECT 
+	CASE WHEN 
+		UserID = @UserId 
+	THEN 
+		RelatedUserID 
+	ELSE 
+		UserId 
+	END 
+	FROM 
+		{databaseOwner}{objectQualifier}UserRelationships 
+	WHERE 
+		(UserID = @UserId OR RelatedUserId = @UserId) 
+	AND 
+		RelationshipId = 1
+)
+
+GO
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}Journal_Comments AS c
+INNER JOIN
+	{databaseOwner}{objectQualifier}Journal AS j
+ON
+	c.JournalId = j.JournalId
+WHERE
+	c.UserId
+IN
+(
+	SELECT 
+	CASE WHEN 
+		UserID = @UserId 
+	THEN 
+		RelatedUserID 
+	ELSE 
+		UserId 
+	END 
+	FROM 
+		{databaseOwner}{objectQualifier}UserRelationships 
+	WHERE 
+		(UserID = @UserId OR RelatedUserId = @UserId) 
+	AND 
+		RelationshipId = 2
+)
+
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromNonConnected') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromNonConnected
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromNonConnected
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}Journal_Comments AS c
+INNER JOIN
+	{databaseOwner}{objectQualifier}Journal AS j
+ON
+	c.JournalId = j.JournalId
+WHERE
+	c.UserId <> @UserId
+AND
+	c.UserId
+NOT IN
+(
+	SELECT 
+	CASE WHEN 
+		UserID = @UserId 
+	THEN 
+		RelatedUserID 
+	ELSE 
+		UserId 
+	END 
+	FROM 
+		{databaseOwner}{objectQualifier}UserRelationships 
+	WHERE 
+		(UserID = @UserId OR RelatedUserId = @UserId)
+)
+
+GO
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/

@@ -39,6 +39,18 @@ GO
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount
 GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromNonConnected') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromNonConnected
+GO
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/

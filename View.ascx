@@ -78,22 +78,27 @@
 
 <!-- Script to show reply data for your posts/activity on the platform broken into friends, followers and non connection -->
 <script>
+    //TODO: Right Now the counts on replies could possibly return duplicated values if a users is both friend and follower - this is something minor to address both work and precedence wise.
+    //TODO: Another issue is if I'm following someone but they aren't following back its being tracked as same thing on graph. Perhaps two sections on graph one for each version of following (to/from) is better
     var replyInfo = [
         {
-            value: 22,
-            color: '#09355C',
+            value: <%= QueryController.GetCountRepliesFromFriends(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
+            color: '#109DE2',
+            highlight: '#1FADE2',
             label: 'Replies From Friends'
             
         },
         {
-            value: 89,
+            value: <%= QueryController.GetCountRepliesFromFollowers(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
             label: 'Replies From Followers',
-            color: '#CBCBCB'
+            color: '#CBCBCB',
+            highlight: '#CDCCDC'
         },
         {
-            value: 225,
+            value: <%= QueryController.GetCountRepliesFromNonConnected(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
             label: 'Replies from non connections',
-            color: '#B61B12'
+            color: '#F7464A',
+            highlight: "#FF5A5E"
         }
     ];
     var options = {
@@ -142,7 +147,10 @@
     document.getElementById('js-legend2').innerHTML = postsChart.generateLegend();
 </script>
 
-<!-- Network graph script. This is where node/edges graph for connected users across the site is handled. Also handles click event by redirecting to profile of selected user. -->
+<!-- Network graph script. This is where node/edges graph for connected users across the site is handled. Also handles click event by redirecting to profile of selected user. 
+     Also contains the javascript for handling acordion categories as there is a conflict with the node network graph and requires access in script to resolve.
+    TODO: Have edges for followers have head and tails arrow if following goes both ways rather than current implementation that gives two seperate arrows    
+-->
 <script>
     var nodeDict = $.parseJSON('<%= QueryController.GetNetworkData()%>');
     var nodes = new vis.DataSet({});
@@ -192,27 +200,27 @@
         }
     )
     $(document).ready(function() {
-            function close_accordion_section() {
-                $('.accordion .accordion-section-title').removeClass('active');
-                $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+        function close_accordion_section() {
+            $('.accordion .accordion-section-title').removeClass('active');
+            $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+        }
+ 
+        $('.accordion-section-title').click(function(e) {
+            // Grab current anchor value
+            var currentAttrValue = $(this).attr('href');
+            if($(e.target).is('.active')) {
+                close_accordion_section();
+            }else {
+                close_accordion_section();
+ 
+                // Add active class to section title
+                $(this).addClass('active');
+                // Open up the hidden content panel
+                $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
+                network.fit();
             }
  
-            $('.accordion-section-title').click(function(e) {
-                // Grab current anchor value
-                var currentAttrValue = $(this).attr('href');
-                if($(e.target).is('.active')) {
-                    close_accordion_section();
-                }else {
-                    close_accordion_section();
- 
-                    // Add active class to section title
-                    $(this).addClass('active');
-                    // Open up the hidden content panel
-                    $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
-                    network.fit();
-                }
- 
-                e.preventDefault();
-            });
+            e.preventDefault();
         });
+    });
 </script>
