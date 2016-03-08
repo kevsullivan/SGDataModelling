@@ -92,12 +92,6 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetUserCommunityPostsCount(int userId);
 
-        public abstract IDataReader GetCountRepliesFromFriends(int userId);
-
-        public abstract IDataReader GetCountRepliesFromFollowers(int userId);
-
-        public abstract IDataReader GetCountRepliesFromNonConnected(int userId);
-
         public abstract IDataReader GetNumberUsers();
 
         public abstract IDataReader GetRelationshipUsers();
