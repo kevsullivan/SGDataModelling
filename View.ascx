@@ -91,7 +91,7 @@
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(" + hue + ",1)",
             data: finalRes
-    });
+        });
     }
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var altLabels = months.splice(3);
@@ -115,28 +115,37 @@
 
 <!-- Script to get stats genres the developer favors vs what users favor -->
 <script>
+    var genreDevDataDict = $.parseJSON('<%= QueryController.GetDevGenreTrend(Convert.ToInt32(txtUserId.Text))%>');
+    var genreUsersDataDict = $.parseJSON('<%= QueryController.GetAllUsersGenreTrend()%>');
+    var genres = [], devData = [], userData = [];
+    for (var key in genreDevDataDict) {
+        window.alert(key);
+        genres.push(key);
+        devData.push(genreDevDataDict[key]);
+        userData.push(genreUsersDataDict[key]);
+    }
     var data = {
-        labels: ["FPS", "Action", "Adventure", "Indie", "Massive Multiplayer", "Racing", "RPG", "Sim", "Sports", "Strategy"],
+        labels: genres,
         datasets: [
             {
-                label: "My First dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                label: "Your Top Dev Genre",
+                fillColor: "rgba(22,25,18,0.2)",
+                strokeColor: "rgba(22,25,18,1)",
+                pointColor: "rgba(22,25,18,1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 90, 81, 56, 55, 40, 32, 91, 10]
+                pointHighlightStroke: "rgba(22,25,18,1)",
+                data: devData
             },
             {
-                label: "My Second dataset",
+                label: "Users Favourite Genres",
                 fillColor: "rgba(151,187,205,0.2)",
                 strokeColor: "rgba(151,187,205,1)",
                 pointColor: "rgba(151,187,205,1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 96, 27, 100, 53, 18, 82]
+                data: userData
             }
         ]
     };

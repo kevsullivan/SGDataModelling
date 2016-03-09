@@ -55,13 +55,40 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberUsers());
         }
 
+        public static string GetDevGenreTrend(int userId)
+        {
+
+            var genreData = CBO.FillObject<GenreStats>(DataProvider.Instance().GetDevGenreTrend(userId));
+
+            var jSer = new JavaScriptSerializer();
+            return jSer.Serialize(genreData.GenreData);
+        }
+
+        public static string GetUserGenreTrend(int userId)
+        {
+
+            var genreData = CBO.FillObject<GenreStats>(DataProvider.Instance().GetUserGenreTrend(userId));
+
+            var jSer = new JavaScriptSerializer();
+            return jSer.Serialize(genreData.GenreData);
+        }
+
+        public static string GetAllUsersGenreTrend()
+        {
+
+            var genreData = CBO.FillObject<GenreStats>(DataProvider.Instance().GetAllUsersGenreTrend());
+
+            var jSer = new JavaScriptSerializer();
+            return jSer.Serialize(genreData.GenreData);
+        }
+
         public static string GetDevMonthlyDownloads()
         {
 
             var annualData = CBO.FillCollection<AnnualStats>(DataProvider.Instance().GetDevMonthlyDownloads(0));
             // Converting data to pass as JSON for us in javascript. Passes Name (Label Info for data) and array of counts for each month in previous year Jan - Dec
             var jsData = annualData.ToDictionary(element => element.Name, element => element.MonthData);
-            JavaScriptSerializer jSer = new JavaScriptSerializer();
+            var jSer = new JavaScriptSerializer();
             return jSer.Serialize(jsData);
         }
 
@@ -72,7 +99,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             // Converted using link - Loops through network data and fills dictionary testData with key/value for each NetworkData element
             var testData = networkData.ToDictionary(element => element.Key, element => element.Value);
 
-            JavaScriptSerializer jSer = new JavaScriptSerializer();
+            var jSer = new JavaScriptSerializer();
             return jSer.Serialize(testData);
         }
 
@@ -84,7 +111,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             // TODO: Handle relationship type i.e Friend / Follower
             var testData = relationshipLinks.ToDictionary(element => element.UserRelationshipId, element => element.UserId + "," + element.RelatedUserId + "," + element.Relationship);
 
-            JavaScriptSerializer jSer = new JavaScriptSerializer();
+            var jSer = new JavaScriptSerializer();
             return jSer.Serialize(testData);
         }
         /*

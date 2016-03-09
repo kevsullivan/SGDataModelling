@@ -310,6 +310,82 @@ FROM {databaseOwner}{objectQualifier}SGGameDownloads
 GROUP BY [GameName]
 
 GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetDevGenreTrend') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDevGenreTrend
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDevGenreTrend
+	@UserId int
+AS
+SELECT 
+COUNT(
+	CASE WHEN  GameGenre = 'FPS' THEN 1 ELSE NULL END) FPS
+	,COUNT(CASE WHEN  GameGenre = 'Action' THEN 1 ELSE NULL END) Action
+	,COUNT(CASE WHEN  GameGenre = 'Adventure' THEN 1 ELSE NULL END) Adventure
+	,COUNT(CASE WHEN  GameGenre = 'Indie' THEN 1 ELSE NULL END) Indie
+	,COUNT(CASE WHEN  GameGenre = 'Massive Multiplayer' THEN 1 ELSE NULL END) 'Massive Multiplayer'
+	,COUNT(CASE WHEN  GameGenre = 'Racing' THEN 1 ELSE NULL END) Racing
+	,COUNT(CASE WHEN  GameGenre = 'RPG' THEN 1 ELSE NULL END) RPG
+	,COUNT(CASE WHEN  GameGenre = 'Sim' THEN 1 ELSE NULL END) Sim
+	,COUNT(CASE WHEN  GameGenre = 'Sports' THEN 1 ELSE NULL END) Sports
+	,COUNT(CASE WHEN  GameGenre = 'Strategy' THEN 1 ELSE NULL END) Strategy
+FROM 
+	{databaseOwner}{objectQualifier}SGGameDistribution_Game
+WHERE
+	DeveloperId = @UserId
+GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserGenreTrend') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserGenreTrend
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserGenreTrend
+	@UserId int
+AS
+SELECT 
+COUNT(
+	CASE WHEN  g.GameGenre = 'FPS' THEN 1 ELSE NULL END) FPS
+	,COUNT(CASE WHEN  g.GameGenre = 'Action' THEN 1 ELSE NULL END) Action
+	,COUNT(CASE WHEN  g.GameGenre = 'Adventure' THEN 1 ELSE NULL END) Adventure
+	,COUNT(CASE WHEN  g.GameGenre = 'Indie' THEN 1 ELSE NULL END) Indie
+	,COUNT(CASE WHEN  g.GameGenre = 'Massive Multiplayer' THEN 1 ELSE NULL END) 'Massive Multiplayer'
+	,COUNT(CASE WHEN  g.GameGenre = 'Racing' THEN 1 ELSE NULL END) Racing
+	,COUNT(CASE WHEN  g.GameGenre = 'RPG' THEN 1 ELSE NULL END) RPG
+	,COUNT(CASE WHEN  g.GameGenre = 'Sim' THEN 1 ELSE NULL END) Sim
+	,COUNT(CASE WHEN  g.GameGenre = 'Sports' THEN 1 ELSE NULL END) Sports
+	,COUNT(CASE WHEN  g.GameGenre = 'Strategy' THEN 1 ELSE NULL END) Strategy
+FROM 
+	{databaseOwner}{objectQualifier}SGGameDownloads AS d INNER JOIN {databaseOwner}{objectQualifier}SGGameDistribution_Game AS g ON d.GameId = g.GameId
+WHERE d.DownloaderId = @UserId
+
+GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetAllUsersGenreTrend') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAllUsersGenreTrend
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetAllUsersGenreTrend
+AS
+SELECT 
+COUNT(
+	CASE WHEN  g.GameGenre = 'FPS' THEN 1 ELSE NULL END) FPS
+	,COUNT(CASE WHEN  g.GameGenre = 'Action' THEN 1 ELSE NULL END) Action
+	,COUNT(CASE WHEN  g.GameGenre = 'Adventure' THEN 1 ELSE NULL END) Adventure
+	,COUNT(CASE WHEN  g.GameGenre = 'Indie' THEN 1 ELSE NULL END) Indie
+	,COUNT(CASE WHEN  g.GameGenre = 'Massive Multiplayer' THEN 1 ELSE NULL END) 'Massive Multiplayer'
+	,COUNT(CASE WHEN  g.GameGenre = 'Racing' THEN 1 ELSE NULL END) Racing
+	,COUNT(CASE WHEN  g.GameGenre = 'RPG' THEN 1 ELSE NULL END) RPG
+	,COUNT(CASE WHEN  g.GameGenre = 'Sim' THEN 1 ELSE NULL END) Sim
+	,COUNT(CASE WHEN  g.GameGenre = 'Sports' THEN 1 ELSE NULL END) Sports
+	,COUNT(CASE WHEN  g.GameGenre = 'Strategy' THEN 1 ELSE NULL END) Strategy
+FROM 
+	{databaseOwner}{objectQualifier}SGGameDownloads AS d INNER JOIN {databaseOwner}{objectQualifier}SGGameDistribution_Game AS g ON d.GameId = g.GameId 
+
+GO
 /************************************************************/
 /*****              SqlDataProvider                     *****/
 /************************************************************/

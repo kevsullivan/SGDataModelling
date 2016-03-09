@@ -186,6 +186,21 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetDevMonthlyDownloads", new SqlParameter("@UserId", userId));
         }
 
+        public override IDataReader GetDevGenreTrend(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetDevGenreTrend", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetUserGenreTrend(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserGenreTrend", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetAllUsersGenreTrend()
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetAllUsersGenreTrend");
+        }
+
         public override IDataReader GetNumberUsers()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");

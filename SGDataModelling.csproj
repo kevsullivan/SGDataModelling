@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Components\AnnualStats.cs" />
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\GenreStats.cs" />
     <Compile Include="Components\HelperClass.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

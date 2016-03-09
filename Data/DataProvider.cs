@@ -100,6 +100,12 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetDevMonthlyDownloads(int userId);
 
+        public abstract IDataReader GetDevGenreTrend(int userId);
+
+        public abstract IDataReader GetUserGenreTrend(int userId);
+
+        public abstract IDataReader GetAllUsersGenreTrend();
+
         public abstract IDataReader GetNumberUsers();
 
         public abstract IDataReader GetRelationshipUsers();
