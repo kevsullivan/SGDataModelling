@@ -42,8 +42,8 @@ namespace DotNetNuke.Modules.SGDataModelling
             {
                 //TODO Call all queries here and populate asp view html with date. This is also where JS libraries can be called for graphing.
                 if (Page.IsPostBack) return;
-
-                var avgAge = QueryController.GetAgeAvg(UserId).QueryValue;;
+                //TODO: if age hasn't been set in the profile yet then getting average age will fail
+                var avgAge = QueryController.GetAgeAvg(UserId).QueryValue;
                 var numFollowers = QueryController.GetNumberFollowers(UserId).QueryValue;
                 var numFriends = QueryController.GetNumberFriends(UserId).QueryValue;
                 var numUsers = QueryController.GetNumberUsers().QueryValue;

@@ -55,6 +55,16 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberUsers());
         }
 
+        public static string GetDevMonthlyDownloads()
+        {
+
+            var annualData = CBO.FillCollection<AnnualStats>(DataProvider.Instance().GetDevMonthlyDownloads(0));
+            // Converting data to pass as JSON for us in javascript. Passes Name (Label Info for data) and array of counts for each month in previous year Jan - Dec
+            var jsData = annualData.ToDictionary(element => element.Name, element => element.MonthData);
+            JavaScriptSerializer jSer = new JavaScriptSerializer();
+            return jSer.Serialize(jsData);
+        }
+
         public static string GetNetworkData()
         {
             

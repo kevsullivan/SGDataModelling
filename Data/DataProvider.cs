@@ -98,6 +98,8 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetCountRepliesFromNonConnected(int userId);
 
+        public abstract IDataReader GetDevMonthlyDownloads(int userId);
+
         public abstract IDataReader GetNumberUsers();
 
         public abstract IDataReader GetRelationshipUsers();

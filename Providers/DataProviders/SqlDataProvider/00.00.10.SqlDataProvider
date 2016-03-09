@@ -177,6 +177,7 @@ GO
 CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends
 	@UserId int
 AS
+
 SELECT 
 	Count(*) AS QueryResult
 FROM 
@@ -204,8 +205,12 @@ IN
 	AND 
 		RelationshipId = 1
 )
+AND
+	@UserId <> j.UserId
 
 GO
+
+
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFollowers
 GO
@@ -277,6 +282,32 @@ NOT IN
 	WHERE 
 		(UserID = @UserId OR RelatedUserId = @UserId)
 )
+
+GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetDevMonthlyDownloads') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDevMonthlyDownloads
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDevMonthlyDownloads
+	@UserId int
+AS
+SELECT  [GameName] Name
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 1 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Jan
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 2 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Feb
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 3 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Mar
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 4 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Apr
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 5 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) May
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 6 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Jun
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 7 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Jul
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 8 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Aug
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 9 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Sep
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 10 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Oct
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 11 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Nov
+       , COUNT(CASE WHEN  MONTH(FirstDownload) = 12 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Dec
+FROM {databaseOwner}{objectQualifier}SGGameDownloads
+GROUP BY [GameName]
 
 GO
 /************************************************************/

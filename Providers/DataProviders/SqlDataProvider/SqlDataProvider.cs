@@ -180,7 +180,12 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetCountRepliesFromNonConnected", new SqlParameter("@UserId", userId));
         }
-        
+
+        public override IDataReader GetDevMonthlyDownloads(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetDevMonthlyDownloads", new SqlParameter("@UserId", userId));
+        }
+
         public override IDataReader GetNumberUsers()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");

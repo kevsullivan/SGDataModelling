@@ -65,6 +65,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AnnualStats.cs" />
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Components\HelperClass.cs">
       <SubType>ASPXCodeBehind</SubType>

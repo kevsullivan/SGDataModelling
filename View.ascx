@@ -69,34 +69,48 @@
 
 <!-- Script to get stats on developers catalog downloads of the last year -->
 <script>
+    var annualDataDict = $.parseJSON('<%= QueryController.GetDevMonthlyDownloads()%>');
+    //Using this to generate variant in graph plot colors.
+    // Gives current month as an index i.e Jan=0, Feb=1 etc. Actually need it in numeric format for splice later.
+    var curMonth = new Date().getMonth() + 1;
+    var userId = <%= Convert.ToInt32(txtUserId.Text)%>;
+    var index = 0;
+    var dataValues = [];
+    for (var key in annualDataDict) {
+        var hue = (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256));
+        var theData = annualDataDict[key];
+        var altData = theData.splice(3);
+        var finalRes = altData.concat(theData);
+        dataValues.push(
+        {
+            label: key,
+            fillColor: "rgba(" + hue + ",0.2)",
+            strokeColor: "rgba(" + hue + ",1)",
+            pointColor: "rgba(" + hue + ",1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(" + hue + ",1)",
+            data: finalRes
+    });
+    }
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var altLabels = months.splice(3);
+    finalRes = altLabels.concat(months);
     var gameData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: "Game 1",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 80, 81, 56, 55, 40, 15, 55, 62, 43, 71]
-            },
-            {
-                label: "Game 2",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 86, 27, 90, 23, 52, 101, 15, 32]
-            }
-        ]
+        //TODO: Get Current Month to front of list of labels and line up data accordingly
+        labels: finalRes,
+        datasets: dataValues
     };
-    var anualData = document.getElementById('annualData').getContext('2d');
+    var annualData = document.getElementById('annualData').getContext('2d');
     var options = {};
-    new Chart(anualData).Line(gameData, options);
+    new Chart(annualData).Line(gameData, options);
+
+    //Take a list splice it on index push the spliced list onto the newly created one from said splicing and return result.
+    function balanceTimeline(arr, idx) {
+        var cut = arr.splice(idx);
+        cut.push(arr);
+        return cut;
+    }
 </script>
 
 <!-- Script to get stats genres the developer favors vs what users favor -->
