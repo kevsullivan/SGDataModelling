@@ -8,16 +8,15 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 00.00.11 Upgraded SqlDataProvider Script to install new stored procedures required for v00.00.08 </b><br /><br />
+		<b>Version 01.00.00 This is initial version of Serenity Data </b><br /><br />
 	</p>
-	<p>Demo v00.00.08 was released with SqlDataProvider Script that contained relevant stored procedures but version was out of date so failed to install procedures in production site this relase contains updated v0.00.08SqlDataprovider
-	that will upgrade stored procedures. It also fixes a bug in network connection node graph where results shown were reverse opposite of what they should have been.
+	<p>
+		V 01.00.00 Contains 6 graphs in an accordian 2x User Graphs, 2x Content Graphs and 2x Dev Graphs. Requires V 00.01.00 of Serenity Gaming Game Distribution Module to be installed on same site.
 	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>Fixes Stored Procedure issue from pre v00.00.10</li>
-			<li>Fixes issue with node connection graphs showing wrong data.</li>
+			<li></li>
 	</ul>
 	
 </div>
