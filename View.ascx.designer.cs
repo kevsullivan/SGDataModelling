@@ -49,6 +49,60 @@ namespace DotNetNuke.Modules.SGDataModelling {
         protected global::System.Web.UI.WebControls.TextBox txtNumberUsers;
         
         /// <summary>
+        /// txtNumberFriendsUnder18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberFriendsUnder18;
+        
+        /// <summary>
+        /// txtNumberFollowersUnder18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberFollowersUnder18;
+        
+        /// <summary>
+        /// txtNumberUsersUnder18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberUsersUnder18;
+        
+        /// <summary>
+        /// txtNumberFriendsOver18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberFriendsOver18;
+        
+        /// <summary>
+        /// txtNumberFollowersOver18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberFollowersOver18;
+        
+        /// <summary>
+        /// txtNumberUsersOver18 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberUsersOver18;
+        
+        /// <summary>
         /// txtUserId control.
         /// </summary>
         /// <remarks>

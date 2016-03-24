@@ -8,15 +8,18 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 01.00.00 This is initial version of Serenity Data </b><br /><br />
+		<b>Version 01.01.00 Refactor on v01.00.00 </b><br /><br />
 	</p>
 	<p>
-		V 01.00.00 Contains 6 graphs in an accordian 2x User Graphs, 2x Content Graphs and 2x Dev Graphs. Requires V 00.01.00 of Serenity Gaming Game Distribution Module to be installed on same site.
+		This release should fix a lot of issues that shipped with v01.00.00 for better implementation of Serenity Data.
 	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li></li>
+			<li>Tidied UI For SD</li>
+			<li>Added Feedback for several cases that caused graphs not to display</li>
+			<li>Added proper tracking of content post data.</li>
+			<li>Fixed issue that was causing incorrect dsiplays in reply stats.</li>
 	</ul>
 	
 </div>

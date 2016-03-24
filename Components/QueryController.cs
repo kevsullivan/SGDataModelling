@@ -27,9 +27,24 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberFollowers(userId));
         }
 
+        public static QueryResult GetNumberFriendsOver18(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberFriendsOver18(userId));
+        }
+
+        public static QueryResult GetNumberFollowersOver18(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberFollowersOver18(userId));
+        }
+
         public static QueryResult GetUserCommunityPostsCount(int userId)
         {
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetUserCommunityPostsCount(userId));
+        }
+
+        public static QueryResult GetUserForumPostsCount(int userId)
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetUserForumPostsCount(userId));
         }
         /*
         // TODO: Get Reply Counts for friends needs a little work on its stored procedures. Mainly to handle the issue of pending friends 
@@ -53,6 +68,11 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
         public static QueryResult GetNumberUsers()
         {
             return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberUsers());
+        }
+
+        public static QueryResult GetNumberUsersOver18()
+        {
+            return CBO.FillObject<QueryResult>(DataProvider.Instance().GetNumberUsersOver18());
         }
 
         public static string GetDevGenreTrend(int userId)
@@ -82,10 +102,10 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return jSer.Serialize(genreData.GenreData);
         }
 
-        public static string GetDevMonthlyDownloads()
+        public static string GetDevMonthlyDownloads(int userId)
         {
 
-            var annualData = CBO.FillCollection<AnnualStats>(DataProvider.Instance().GetDevMonthlyDownloads(0));
+            var annualData = CBO.FillCollection<AnnualStats>(DataProvider.Instance().GetDevMonthlyDownloads(userId));
             // Converting data to pass as JSON for us in javascript. Passes Name (Label Info for data) and array of counts for each month in previous year Jan - Dec
             var jsData = annualData.ToDictionary(element => element.Name, element => element.MonthData);
             var jSer = new JavaScriptSerializer();

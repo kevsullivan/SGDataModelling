@@ -161,9 +161,24 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFollowers", new SqlParameter("@UserId", userId));
         }
 
+        public override IDataReader GetNumberFriendsOver18(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFriendsOver18", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetNumberFollowersOver18(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberFollowersOver18", new SqlParameter("@UserId", userId));
+        }
+
         public override IDataReader GetUserCommunityPostsCount(int userId)
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserCommunityPostsCount", new SqlParameter("@UserId", userId));
+        }
+
+        public override IDataReader GetUserForumPostsCount(int userId)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserForumPostsCount", new SqlParameter("@UserId", userId));
         }
 
         public override IDataReader GetCountRepliesFromFriends(int userId)
@@ -204,6 +219,11 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         public override IDataReader GetNumberUsers()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsers");
+        }
+
+        public override IDataReader GetNumberUsersOver18()
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetNumberUsersOver18");
         }
 
         public override IDataReader GetRelationshipUsers()

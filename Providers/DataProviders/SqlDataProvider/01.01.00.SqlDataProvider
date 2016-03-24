@@ -61,6 +61,7 @@ IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{datab
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriends
 GO
 
+
 CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriends
 	@UserId int
 AS
@@ -69,11 +70,50 @@ SELECT
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships 
 WHERE 
-	UserID = @UserId OR RelatedUserID = @UserId
+	(UserID = @UserId OR RelatedUserID = @UserId)
 AND 
-	Status = 2 AND RelationshipID = 1
+	(Status = 2 AND RelationshipID = 1)
 
 GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriendsOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriendsOver18
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriendsOver18
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}UserRelationships ur
+WHERE 
+	(ur.UserID = @UserId OR ur.RelatedUserID = @UserId)
+AND 
+	(ur.Status = 2 AND ur.RelationshipID = 1)
+AND
+	(
+		(SELECT CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0))
+		 FROM 
+			{databaseOwner}{objectQualifier}UserProfile
+		 WHERE 
+			PropertyDefinitionID = (
+									SELECT 
+										PropertyDefinitionID 
+									FROM 
+										{databaseOwner}{objectQualifier}ProfilePropertyDefinition 
+									WHERE 
+										PropertyName ='Date_Of_Birth'
+									)
+		 AND
+			UserID = case when ur.UserID = @UserId then ur.RelatedUserID else ur.UserID end
+		 ) >= 18
+    )  
+
+GO
+
 
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers
@@ -87,11 +127,49 @@ SELECT
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships 
 WHERE 
-	UserID = @UserId OR RelatedUserID = @UserId
+	(UserID = @UserId OR RelatedUserID = @UserId)
 AND 
-	Status = 2 AND RelationshipID = 2
+	(Status = 2 AND RelationshipID = 2)
 
 GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowersOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowersOver18
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowersOver18
+	@UserId int
+AS
+SELECT 
+	Count(*) AS QueryResult
+FROM 
+	{databaseOwner}{objectQualifier}UserRelationships ur
+WHERE 
+	(ur.UserID = @UserId OR ur.RelatedUserID = @UserId)
+AND 
+	(ur.Status = 2 AND ur.RelationshipID = 2)
+AND
+	(
+		(SELECT CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0))
+		 FROM 
+			{databaseOwner}{objectQualifier}UserProfile
+		 WHERE 
+			PropertyDefinitionID = (
+									SELECT 
+										PropertyDefinitionID 
+									FROM 
+										{databaseOwner}{objectQualifier}ProfilePropertyDefinition 
+									WHERE 
+										PropertyName ='Date_Of_Birth'
+									)
+		 AND
+			UserID = case when ur.UserID = @UserId then ur.RelatedUserID else ur.UserID end
+		 ) >= 18
+    )  
+
+GO
+
 
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsers
@@ -106,6 +184,30 @@ FROM
 
 GO
 
+--NOTE: This queries agains UserProfiles instead of all users as you can't enforce a date of birth on the host but you can on every other user so there will be a Total of N - 1 results of over/under 18 where N = Number users including host.
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsersOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsersOver18
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsersOver18
+AS
+SELECT COUNT(*) as queryresult
+FROM 
+	{databaseOwner}{objectQualifier}UserProfile 
+WHERE 
+	PropertyDefinitionID = (
+							SELECT 
+								PropertyDefinitionID 
+							FROM 
+								{databaseOwner}{objectQualifier}ProfilePropertyDefinition 
+							WHERE 
+								PropertyName ='Date_Of_Birth'
+							)
+AND
+	CONVERT(int, ROUND(DATEDIFF(hour, PropertyValue, GETDATE())/8766.0,0)) > 18
+	
+
+GO
 
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetRelationshipUsers') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetRelationshipUsers
@@ -154,19 +256,19 @@ WHERE
 
 GO
 
-IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserForumPostsCount') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserForumPostsCount
 GO
 
-CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount
+CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserForumPostsCount
 	@UserId int
 AS
 SELECT 
 	Count(*) AS QueryResult
 FROM 
-	{databaseOwner}{objectQualifier}Journal
+	{databaseOwner}{objectQualifier}activeforums_Content
 WHERE
-	UserId = @UserId
+	AuthorId = @UserId
 
 GO
 
@@ -187,6 +289,8 @@ INNER JOIN
 ON
 	c.JournalId = j.JournalId
 WHERE
+	j.UserId = @UserId
+AND
 	c.UserId
 IN
 (
@@ -205,8 +309,6 @@ IN
 	AND 
 		RelationshipId = 1
 )
-AND
-	@UserId <> j.UserId
 
 GO
 
@@ -227,6 +329,8 @@ INNER JOIN
 ON
 	c.JournalId = j.JournalId
 WHERE
+	j.UserId = @UserId
+AND
 	c.UserId
 IN
 (
@@ -265,6 +369,8 @@ ON
 	c.JournalId = j.JournalId
 WHERE
 	c.UserId <> @UserId
+AND
+	j.UserId = @UserId
 AND
 	c.UserId
 NOT IN
@@ -307,6 +413,7 @@ SELECT  [GameName] Name
        , COUNT(CASE WHEN  MONTH(FirstDownload) = 11 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Nov
        , COUNT(CASE WHEN  MONTH(FirstDownload) = 12 AND FirstDownload > DATEADD(year, -1, GETDATE()) THEN 1 ELSE NULL END) Dec
 FROM {databaseOwner}{objectQualifier}SGGameDownloads
+WHERE GameDevId = @UserId
 GROUP BY [GameName]
 
 GO

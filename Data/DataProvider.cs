@@ -90,14 +90,20 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetNumberFollowers(int userId);
 
+        public abstract IDataReader GetNumberFriendsOver18(int userId);
+
+        public abstract IDataReader GetNumberFollowersOver18(int userId);
+
         public abstract IDataReader GetUserCommunityPostsCount(int userId);
+
+        public abstract IDataReader GetUserForumPostsCount(int userId);
 
         public abstract IDataReader GetCountRepliesFromFriends(int userId);
 
         public abstract IDataReader GetCountRepliesFromFollowers(int userId);
 
         public abstract IDataReader GetCountRepliesFromNonConnected(int userId);
-
+        
         public abstract IDataReader GetDevMonthlyDownloads(int userId);
 
         public abstract IDataReader GetDevGenreTrend(int userId);
@@ -107,6 +113,8 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         public abstract IDataReader GetAllUsersGenreTrend();
 
         public abstract IDataReader GetNumberUsers();
+
+        public abstract IDataReader GetNumberUsersOver18();
 
         public abstract IDataReader GetRelationshipUsers();
 

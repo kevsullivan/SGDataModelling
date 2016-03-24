@@ -40,6 +40,10 @@ IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{datab
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserCommunityPostsCount
 GO
 
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetUserForumPostsCount') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetUserForumPostsCount
+GO
+
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetCountRepliesFromFriends
 GO
@@ -58,6 +62,19 @@ GO
 
 IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetDevGenreTrend') and OBJECTPROPERTY(id, N'IsProcedure')=1)
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetDevGenreTrend
+GO
+
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsersOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberUsersOver18
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriendsOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFriendsOver18
+GO
+
+IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowersOver18') and OBJECTPROPERTY(id, N'IsProcedure')=1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowersOver18
 GO
 
 /************************************************************/

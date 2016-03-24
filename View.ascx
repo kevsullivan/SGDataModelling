@@ -12,6 +12,12 @@
 <asp:TextBox ID="txtNumberFriends" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberFollowers" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberUsers" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberFriendsUnder18" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberFollowersUnder18" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberUsersUnder18" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberFriendsOver18" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberFollowersOver18" runat="server"></asp:TextBox>
+<asp:TextBox ID="txtNumberUsersOver18" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtUserId" runat="server"></asp:TextBox>
 
 <!-- Construct overall container of graphs here - Design Area -->
@@ -19,7 +25,7 @@
     <div class="accordion-section">
         <a id="networkContainer" class="accordion-section-title" href="#accordion-1">User Data</a>
         <div id="accordion-1" class="accordion-section-content">
-            <input id="networkButton" type="button" value="Center Node Network"/>
+            <input id="networkButton" type="button" value="Center User Network"/>
             <label style="color: green">Friend Links</label>
             <label style="color: red">Follower Links</label>
             <div style="height: 400px; width: 50%" id="networks">
@@ -69,41 +75,61 @@
 
 <!-- Script to get stats on developers catalog downloads of the last year -->
 <script>
-    var annualDataDict = $.parseJSON('<%= QueryController.GetDevMonthlyDownloads()%>');
-    //Using this to generate variant in graph plot colors.
-    // Gives current month as an index i.e Jan=0, Feb=1 etc. Actually need it in numeric format for splice later.
-    var curMonth = new Date().getMonth() + 1;
-    var userId = <%= Convert.ToInt32(txtUserId.Text)%>;
-    var index = 0;
-    var dataValues = [];
-    for (var key in annualDataDict) {
-        var hue = (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256));
-        var theData = annualDataDict[key];
-        var altData = theData.splice(3);
-        var finalRes = altData.concat(theData);
-        dataValues.push(
-        {
-            label: key,
-            fillColor: "rgba(" + hue + ",0.2)",
-            strokeColor: "rgba(" + hue + ",1)",
-            pointColor: "rgba(" + hue + ",1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(" + hue + ",1)",
-            data: finalRes
-        });
+    var annualDataDict = $.parseJSON('<%= QueryController.GetDevMonthlyDownloads(Convert.ToInt32(txtUserId.Text))%>');
+    
+    if ((Object.keys(annualDataDict).length === 0 && JSON.stringify(annualDataDict) === JSON.stringify({}))) 
+    {
+        //No games have been developed by this user let the know
+        var canvas = document.getElementById('annualData');
+        var context = canvas.getContext('2d');
+        context.font = "30px Arial";
+        context.fillStyle = "blue";
+        context.textAlign = "center";
+        context.fillText("Publish Games to see data!", canvas.width/2, canvas.height/2);
+
+    } 
+    else
+    {
+        //Using this to generate variant in graph plot colors.
+        // Gives current month as an index i.e Jan=0, Feb=1 etc. Actually need it in numeric format for splice later.
+        var curMonth = new Date().getMonth() + 1;
+        //var userId = <%= Convert.ToInt32(txtUserId.Text)%>;
+        //var index = 0;
+        var dataValues = [];
+    
+        for (var key in annualDataDict) {
+            var hue = (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256));
+            var theData = annualDataDict[key];
+            var altData = theData.splice(curMonth);
+            var devNumbers = altData.concat(theData);
+            dataValues.push(
+            {
+                label: key,
+                fillColor: "rgba(" + hue + ",0.2)",
+                strokeColor: "rgba(" + hue + ",1)",
+                pointColor: "rgba(" + hue + ",1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(" + hue + ",1)",
+                data: devNumbers
+            
+            });
+        } 
+
+    
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var altLabels = months.splice(curMonth);
+        var sortedMonths = altLabels.concat(months);
+        var gameData = {
+            //TODO: Get Current Month to front of list of labels and line up data accordingly
+            labels: sortedMonths,
+            datasets: dataValues
+        };
+        var annualData = document.getElementById('annualData').getContext('2d');
+        var options = {};
+        new Chart(annualData).Line(gameData, options);
     }
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var altLabels = months.splice(3);
-    finalRes = altLabels.concat(months);
-    var gameData = {
-        //TODO: Get Current Month to front of list of labels and line up data accordingly
-        labels: finalRes,
-        datasets: dataValues
-    };
-    var annualData = document.getElementById('annualData').getContext('2d');
-    var options = {};
-    new Chart(annualData).Line(gameData, options);
+    
 
     //Take a list splice it on index push the spliced list onto the newly created one from said splicing and return result.
     function balanceTimeline(arr, idx) {
@@ -113,45 +139,61 @@
     }
 </script>
 
-<!-- Script to get stats genres the developer favors vs what users favor -->
+<!-- Script to get stats genres the developer favors vs what users favor TODO: Handle what happens if no content has been genrated for dev + user = empty graph-->
 <script>
     var genreDevDataDict = $.parseJSON('<%= QueryController.GetDevGenreTrend(Convert.ToInt32(txtUserId.Text))%>');
     var genreUsersDataDict = $.parseJSON('<%= QueryController.GetAllUsersGenreTrend()%>');
-    var genres = [], devData = [], userData = [];
-    for (var key in genreDevDataDict) {
-        window.alert(key);
-        genres.push(key);
-        devData.push(genreDevDataDict[key]);
-        userData.push(genreUsersDataDict[key]);
+    if (
+            (Object.keys(genreDevDataDict).length === 0 && JSON.stringify(genreDevDataDict) === JSON.stringify({})) &&
+            (Object.keys(genreUsersDataDict).length === 0 && JSON.stringify(genreUsersDataDict) === JSON.stringify({}))
+       ) 
+    {
+        //No Dev or User Data Found so show feedback.
+        var canvas = document.getElementById('prefData');
+        var context = canvas.getContext('2d');
+        context.font = "30px Arial";
+        context.fillStyle = "blue";
+        context.textAlign = "center";
+        context.fillText("No Gerne Stats Data Found", canvas.width/2, canvas.height/2);
+    } 
+    else 
+    {
+        var genres = [], devData = [], userData = [];
+        for (var key in genreDevDataDict) {
+            genres.push(key);
+            devData.push(genreDevDataDict[key]);
+            userData.push(genreUsersDataDict[key]);
+        }
+        var data = {
+            labels: genres,
+            datasets: [
+                {
+                    label: "Your Top Dev Genre",
+                    fillColor: "rgba(22,25,18,0.2)",
+                    strokeColor: "rgba(22,25,18,1)",
+                    pointColor: "rgba(22,25,18,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(22,25,18,1)",
+                    data: devData
+                },
+                {
+                    label: "Users Favourite Genres",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: userData
+                }
+            ]
+        };
+        var options = {}
+        var preferences = document.getElementById('prefData').getContext('2d');
+        new Chart(preferences).Radar(data, options);
     }
-    var data = {
-        labels: genres,
-        datasets: [
-            {
-                label: "Your Top Dev Genre",
-                fillColor: "rgba(22,25,18,0.2)",
-                strokeColor: "rgba(22,25,18,1)",
-                pointColor: "rgba(22,25,18,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(22,25,18,1)",
-                data: devData
-            },
-            {
-                label: "Users Favourite Genres",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: userData
-            }
-        ]
-    };
-    var options = {}
-    var preferences = document.getElementById('prefData').getContext('2d');
-    new Chart(preferences).Radar(data, options);
+    
 </script>
 
 <!-- Script to get high level data of total users, friends and followers on website -->
@@ -161,16 +203,22 @@
         // Data set for users both over and under 18 years of age.
         datasets: [
             {
+                label: 'Total #',
+                fillColor: '#b30000',
+                // Data is pulled from code behind.
+                data: [<%= Convert.ToInt32(txtNumberUsers.Text)%>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+            },
+            {
                 label: 'Over 18 #',
                 fillColor: '#382765',
                 // Data is pulled from code behind.
-                data: [<%= Convert.ToInt32(txtNumberUsers.Text) %>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+                data: [<%= Convert.ToInt32(txtNumberUsersOver18.Text)%>, <%= Convert.ToInt32(txtNumberFriendsOver18.Text) %>, <%= Convert.ToInt32(txtNumberFollowersOver18.Text) %>]
             },
             {
                 label: 'Under 18 #',
                 fillColor: '#7BC225',
                 // Data is pulled from code behind.
-                data: [<%= QueryController.GetNumberUsers().QueryValue%>, <%= Convert.ToInt32(txtNumberFriends.Text) %>, <%= Convert.ToInt32(txtNumberFollowers.Text) %>]
+                data: [<%= Convert.ToInt32(txtNumberUsersUnder18.Text)%>, <%= Convert.ToInt32(txtNumberFriendsUnder18.Text) %>, <%= Convert.ToInt32(txtNumberFollowersUnder18.Text) %>]
             }
         ]
     }
@@ -182,71 +230,107 @@
 <script>
     //TODO: Right Now the counts on replies could possibly return duplicated values if a users is both friend and follower - this is something minor to address both work and precedence wise.
     //TODO: Another issue is if I'm following someone but they aren't following back its being tracked as same thing on graph. Perhaps two sections on graph one for each version of following (to/from) is better
-    var replyInfo = [
-        {
-            value: <%= QueryController.GetCountRepliesFromFriends(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
-            color: '#109DE2',
-            highlight: '#1FADE2',
-            label: 'Replies From Friends'
+    var friendValue = <%= QueryController.GetCountRepliesFromFriends(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    var folValue = <%= QueryController.GetCountRepliesFromFollowers(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    var nonConValue = <%= QueryController.GetCountRepliesFromNonConnected(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    if (friendValue == 0 && folValue == 0 && nonConValue == 0) 
+    {
+        //No games have been developed by this user let the know
+        var canvas = document.getElementById('replyData');
+        var context = canvas.getContext('2d');
+        context.font = "30px Arial";
+        context.fillStyle = "blue";
+        context.textAlign = "center";
+        context.fillText("You have no replies to content", canvas.width/2, canvas.height/2);
+    } 
+    else 
+    {
+        var replyInfo = [
+            {
+                value: friendValue,
+                color: '#109DE2',
+                highlight: '#1FADE2',
+                label: 'Replies From Friends'
             
-        },
-        {
-            value: <%= QueryController.GetCountRepliesFromFollowers(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
-            label: 'Replies From Followers',
-            color: '#CBCBCB',
-            highlight: '#CDCCDC'
-        },
-        {
-            value: <%= QueryController.GetCountRepliesFromNonConnected(Convert.ToInt32(txtUserId.Text)).QueryValue%>,
-            label: 'Replies from non connections',
-            color: '#F7464A',
-            highlight: "#FF5A5E"
+            },
+            {
+                value: folValue,
+                label: 'Replies From Followers',
+                color: '#CBCBCB',
+                highlight: '#CDCCDC'
+            },
+            {
+                value: nonConValue,
+                label: 'Replies from non connections',
+                color: '#F7464A',
+                highlight: "#FF5A5E"
+            }
+        ];
+        var options = {
+            segmentShowStroke: false,
+            animateRotate: true,
+            animateScale: false,
+            percentageInnerCutout: 50,
+            tooltipTemplate : "Total: <" + "%= value%>"
         }
-    ];
-    var options = {
-        segmentShowStroke: false,
-        animateRotate: true,
-        animateScale: false,
-        percentageInnerCutout: 50,
-        tooltipTemplate : "Total: <" + "%= value%>"
+        var replies = document.getElementById('replyData').getContext('2d');
+        var replyChart = new Chart(replies).Doughnut(replyInfo, options);
+        document.getElementById('js-legend1').innerHTML = replyChart.generateLegend();
     }
-    var replies = document.getElementById('replyData').getContext('2d');
-    var replyChart = new Chart(replies).Doughnut(replyInfo, options);
-    document.getElementById('js-legend1').innerHTML = replyChart.generateLegend();
+    
 </script>
 
-<!-- Script to show breakdown of posts by each area on the platform -->
+<!-- Script to show breakdown of posts by each area on the platform 
+    TODO: YOU FORGOT TO ACTUALLY FEED THIS ONE DATA ALSO THE SQL FOR FORUM POSTS ISNT DONE YET IT JUST CHECKS JOURNAL POSTS
+-->
 <script>
-    var postInfo = [
-        {
-            value: 42,
-            color: '#F7464A',
-            highlight: "#FF5A5E",
-            label: 'Community Posts'
+    var comPosts = <%= QueryController.GetUserCommunityPostsCount(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    var chatPosts = 0;
+    var forumPosts = <%= QueryController.GetUserForumPostsCount(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    if (comPosts == 0 && chatPosts == 0 && forumPosts == 0) 
+    {
+        //No games have been developed by this user let the know
+        var canvas = document.getElementById('postsData');
+        var context = canvas.getContext('2d');
+        context.font = "30px Arial";
+        context.fillStyle = "blue";
+        context.textAlign = "center";
+        context.fillText("You havn't posted anything!", canvas.width/2, canvas.height/2);
+    } 
+    else 
+    {
+        var postInfo = [
+            {
+                value: comPosts,
+                color: '#F7464A',
+                highlight: "#FF5A5E",
+                label: 'Community Posts'
             
-        },
-        {
-            value: 89,
-            label: 'Personal Feed',
-            color: '#46BFBD',
-            highlight: "#5AD3D1"
-        },
-        {
-            value: 50,
-            label: 'Forum Posts',
-            color: '#FDB45C',
-            highlight: "#FFC870"
+            },
+            {
+                value: chatPosts,
+                label: 'Chat Posts - TODO',
+                color: '#46BFBD',
+                highlight: "#5AD3D1"
+            },
+            {
+                value: forumPosts,
+                label: 'Forum Posts',
+                color: '#FDB45C',
+                highlight: "#FFC870"
+            }
+        ];
+        var options = {
+            segmentShowStroke: false,
+            animateRotate: true,
+            animateScale: false,
+            tooltipTemplate : "Total: <" + "%= value%>"
         }
-    ];
-    var options = {
-        segmentShowStroke: false,
-        animateRotate: true,
-        animateScale: false,
-        tooltipTemplate : "Total: <" + "%= value%>"
+        var posts = document.getElementById('postsData').getContext('2d');
+        var postsChart = new Chart(posts).Pie(postInfo, options);
+        document.getElementById('js-legend2').innerHTML = postsChart.generateLegend();  
     }
-    var posts = document.getElementById('postsData').getContext('2d');
-    var postsChart = new Chart(posts).Pie(postInfo, options);
-    document.getElementById('js-legend2').innerHTML = postsChart.generateLegend();
+    
 </script>
 
 <!-- Network graph script. This is where node/edges graph for connected users across the site is handled. Also handles click event by redirecting to profile of selected user. 
@@ -261,13 +345,13 @@
         if (key == curUserID)
         {
             nodes.add([
-                { id: key, label: "You", color: 'yellow' }
+                { id: key, label: "You", color: '#3399ff' }
             ]);
         }
         else
         {
             nodes.add([
-                { id: key, label: nodeDict[key], color: 'purple', font: '14px arial white'}
+                { id: key, label: nodeDict[key], color: '#ffcc00', font: '14px arial black'}
             ]);
         }
 
