@@ -103,7 +103,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
         public abstract IDataReader GetCountRepliesFromFollowers(int userId);
 
         public abstract IDataReader GetCountRepliesFromNonConnected(int userId);
-        
+
         public abstract IDataReader GetDevMonthlyDownloads(int userId);
 
         public abstract IDataReader GetDevGenreTrend(int userId);

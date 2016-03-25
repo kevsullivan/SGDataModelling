@@ -8,18 +8,15 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 01.01.00 Refactor on v01.00.00 </b><br /><br />
+		<b>Version 02.00.00 </b><br /><br />
 	</p>
 	<p>
-		This release should fix a lot of issues that shipped with v01.00.00 for better implementation of Serenity Data.
+		First 2.00.00 first production full featured draft. Adds proper data tracking of users/friends/followers data and contains a few general tweeks to the services from last release.
 	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>Tidied UI For SD</li>
-			<li>Added Feedback for several cases that caused graphs not to display</li>
-			<li>Added proper tracking of content post data.</li>
-			<li>Fixed issue that was causing incorrect dsiplays in reply stats.</li>
+			<li>No Bugs Listed</li>
 	</ul>
 	
 </div>
