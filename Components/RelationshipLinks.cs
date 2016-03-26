@@ -14,6 +14,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
         public string UserId { get; set; }
         public string RelatedUserId { get; set; }
         public string Relationship { get; set; }
+        public string Status { get; set; }
 
         public override void Fill(IDataReader dr)
         {
@@ -21,6 +22,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             UserId = Null.SetNullString(dr["UserId"]);
             RelatedUserId = Null.SetNullString(dr["RelatedUserId"]);
             Relationship = Null.SetNullInteger(dr["RelationShipId"]) == 1 ? "Friend" : "Follower";
+            Status = Null.SetNullString(dr["Status"]);
         }
     }
 }

@@ -8,15 +8,16 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 02.00.00 </b><br /><br />
+		<b>Version 02.01.00 </b><br /><br />
 	</p>
 	<p>
-		First 2.00.00 first production full featured draft. Adds proper data tracking of users/friends/followers data and contains a few general tweeks to the services from last release.
+		v02.01.00 Fixing data issues from v02.00.00.
 	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>No Bugs Listed</li>
+			<li>Pending Friends now easier to see on User Network graph.</li>
+			<li>Should be showing game legend in bar graph.</li>
 	</ul>
 	
 </div>

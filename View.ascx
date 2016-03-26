@@ -85,7 +85,7 @@
         context.font = "30px Arial";
         context.fillStyle = "blue";
         context.textAlign = "center";
-        context.fillText("Publish Games to see data!", canvas.width/2, canvas.height/2);
+        context.fillText("No game downloads yet.", canvas.width/2, canvas.height/2);
 
     } 
     else
@@ -121,12 +121,14 @@
         var altLabels = months.splice(curMonth);
         var sortedMonths = altLabels.concat(months);
         var gameData = {
-            //TODO: Get Current Month to front of list of labels and line up data accordingly
+
             labels: sortedMonths,
             datasets: dataValues
         };
         var annualData = document.getElementById('annualData').getContext('2d');
-        var options = {};
+        var options = {
+            //multiTooltipTemplate: gameData.datasetLabel - gameData.value
+        };
         new Chart(annualData).Line(gameData, options);
     }
     
@@ -365,7 +367,12 @@
         var tempdetails = details;
         // Edges colored Green for Friends and Red for followers. Followers also have an arrow pointing to show who is follower/folowee or both if that is the case.
         edges.add([
-            { from: parseInt(details[0]), to: parseInt(details[1]), color: details[2] == "Friend" ? { color: 'green' } : { color: 'red' }, arrows: details[2] == "Follower" ? 'to' : '' }
+            { 
+                from: parseInt(details[0]), to: parseInt(details[1]), 
+                color: details[2] === "Friend" ? { color: 'green' } : { color: 'red' }, 
+                arrows: details[2] === "Follower" ? 'to' : "",
+                dashes: details[3] === "1" ? true : false
+            }
         ]);
     }
 

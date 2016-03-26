@@ -129,7 +129,7 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             var relationshipLinks = CBO.FillCollection<RelationshipLinks>(DataProvider.Instance().GetRelationshipLinks());
             // Converted using link - Loops through network data and fills dictionary testData with key/value for each NetworkData element
             // TODO: Handle relationship type i.e Friend / Follower
-            var testData = relationshipLinks.ToDictionary(element => element.UserRelationshipId, element => element.UserId + "," + element.RelatedUserId + "," + element.Relationship);
+            var testData = relationshipLinks.ToDictionary(element => element.UserRelationshipId, element => element.UserId + "," + element.RelatedUserId + "," + element.Relationship + "," + element.Status);
 
             var jSer = new JavaScriptSerializer();
             return jSer.Serialize(testData);

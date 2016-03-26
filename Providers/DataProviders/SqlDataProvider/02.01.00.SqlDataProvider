@@ -119,6 +119,7 @@ IF EXISTS (SELECT * FROM {databaseOwner}sysobjects WHERE id = object_id(N'{datab
 	DROP PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers
 GO
 
+--TODO I've changed this to only count if you are the one being followed not if you are following others - this is better for user graph but may need full count later so keep eye on this
 CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetNumberFollowers
 	@UserId int
 AS
@@ -127,7 +128,7 @@ SELECT
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships 
 WHERE 
-	(UserID = @UserId OR RelatedUserID = @UserId)
+	RelatedUserID = @UserId
 AND 
 	(Status = 2 AND RelationshipID = 2)
 
@@ -146,7 +147,7 @@ SELECT
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships ur
 WHERE 
-	(ur.UserID = @UserId OR ur.RelatedUserID = @UserId)
+	ur.RelatedUserID = @UserId
 AND 
 	(ur.Status = 2 AND ur.RelationshipID = 2)
 AND
@@ -222,8 +223,16 @@ FROM
 INNER JOIN 
 	{databaseOwner}{objectQualifier}Users 
 ON 
-	{databaseOwner}{objectQualifier}UserRelationships.UserID = {databaseOwner}{objectQualifier}Users.UserID;
-
+	{databaseOwner}{objectQualifier}UserRelationships.UserID = {databaseOwner}{objectQualifier}Users.UserID
+UNION
+SELECT DISTINCT
+	{databaseOwner}{objectQualifier}UserRelationships.RelatedUserID AS rKey, {databaseOwner}{objectQualifier}Users.Username AS rValue
+FROM 
+	{databaseOwner}{objectQualifier}UserRelationships 
+INNER JOIN 
+	{databaseOwner}{objectQualifier}Users 
+ON 
+	{databaseOwner}{objectQualifier}UserRelationships.RelatedUserID = {databaseOwner}{objectQualifier}Users.UserID;
 GO
 
 
@@ -234,7 +243,7 @@ GO
 CREATE PROCEDURE {databaseOwner}{objectQualifier}SGDataModelling_GetRelationshipLinks
 AS
 SELECT 
-	UserRelationshipId, UserId, RelatedUserID, RelationshipID
+	UserRelationshipId, UserId, RelatedUserID, RelationshipID, Status
 FROM 
 	{databaseOwner}{objectQualifier}UserRelationships
 
