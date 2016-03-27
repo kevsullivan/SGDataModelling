@@ -303,17 +303,12 @@
     {
         var postInfo = [
             {
-                value: comPosts,
-                color: '#F7464A',
-                highlight: "#FF5A5E",
+                //Community posts gets count all activity posts which includes forumPosts count so subtract that since we display that count below
+                value: comPosts - forumPosts,
+                color: '#46BFBD',
+                highlight: "#5AD3D1",
                 label: 'Community Posts'
             
-            },
-            {
-                value: chatPosts,
-                label: 'Chat Posts - TODO',
-                color: '#46BFBD',
-                highlight: "#5AD3D1"
             },
             {
                 value: forumPosts,
