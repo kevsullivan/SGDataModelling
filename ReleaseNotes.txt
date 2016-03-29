@@ -8,10 +8,10 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 02.01.02 </b><br /><br />
+		<b>Version 02.02.01 </b><br /><br />
 	</p>
 	<p>
-		v02.01.02 Responsive graphs.
+		Fix release versioning
 	</p>
 	
 	<h4>Bug Fixes</h4>
