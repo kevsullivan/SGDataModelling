@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="SGDataModelling" type="Module" version="02.01.01">
+    <package name="SGDataModelling" type="Module" version="02.01.02">
       <friendlyName>SGDataModelling</friendlyName>
       <description>kevsullivan.com SGDataModelling module</description>
       <iconFile>~/Images/icon_extensions_32px.png</iconFile>

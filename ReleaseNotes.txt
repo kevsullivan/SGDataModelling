@@ -8,16 +8,15 @@
 <div class="License">
 	<h3>About the SGDataModelling</h3>
 	<p class="Owner">
-		<b>Version 02.01.01 </b><br /><br />
+		<b>Version 02.01.02 </b><br /><br />
 	</p>
 	<p>
-		v02.01.01 Re-release for issue in versioning on v02.01.00.
+		v02.01.02 Responsive graphs.
 	</p>
 	
 	<h4>Bug Fixes</h4>
 	<ul>
-			<li>Pending Friends now easier to see on User Network graph.</li>
-			<li>Should be showing game legend in bar graph.</li>
+
 	</ul>
 	
 </div>

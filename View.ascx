@@ -4,8 +4,6 @@
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/d3.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/vis.js"></script>
 <!--
-    TODO: Remove this just want to see if I can commimt from vs again
-    TODO: Remove this just want to see if I can commimt from vs again
 <asp:TextBox ID="txtAgeAvg" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberFriends" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberFollowers" runat="server"></asp:TextBox>
