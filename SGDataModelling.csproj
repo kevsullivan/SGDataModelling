@@ -107,6 +107,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bootstrap.css" />
     <Content Include="Chart.js" />
     <Content Include="Chart.min.js" />
     <Content Include="Edit.ascx" />

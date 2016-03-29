@@ -84,3 +84,8 @@
     padding:15px;
     display:none;
 }
+
+.canvas {
+    max-width: 100%;
+    height: auto;
+}

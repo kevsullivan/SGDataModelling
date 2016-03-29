@@ -3,10 +3,6 @@
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/Chart.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/d3.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/vis.js"></script>
-<script src="http://demos.inspirationalpixels.com/Accordion-with-HTML-CSS-&-jQuery/accordion.js"></script>
-<!-- This import of jquery is causing a conflict with DNN standard version when module is loaded to a page - its not site breaking just means admin controls require entering new page first
-    the main problem is without this the accordian doesn't work as is. So need to implement different handling for the accordian. -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!--
 <asp:TextBox ID="txtAgeAvg" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberFriends" runat="server"></asp:TextBox>
@@ -19,51 +15,57 @@
 <asp:TextBox ID="txtNumberFollowersOver18" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtNumberUsersOver18" runat="server"></asp:TextBox>
 <asp:TextBox ID="txtUserId" runat="server"></asp:TextBox>
-
+-->
+<!-- TODO: make sure accordion is functional with removed javascript -->
 <!-- Construct overall container of graphs here - Design Area -->
 <div class="accordion">
     <div class="accordion-section">
-        <a id="networkContainer" class="accordion-section-title" href="#accordion-1">User Data</a>
+        <a id="networkContainer" class="accordion-section-title" href="#accordion-1">Network Data</a>
         <div id="accordion-1" class="accordion-section-content">
             <input id="networkButton" type="button" value="Center User Network"/>
             <label style="color: green">Friend Links</label>
             <label style="color: red">Follower Links</label>
-            <div style="height: 400px; width: 50%" id="networks">
-                <canvas id="networksCanvas" width="500" height="350"></canvas>
+            <div style="height: 400px; width: 100%" id="networks">
+                <canvas id="networksCanvas"></canvas>
             </div>
-            <div style="height: 400px; width: 50%">
-                <canvas id="relationship" width="500" height="350"></canvas>
-            </div>
-            
+            <!--
             <div>
                 <canvas id="filler" width="50" height="50"></canvas>
+            </div>-->
+        </div><!--end .accordion-section-content-->
+    </div><!--end .accordion-section-->
+    <div class="accordion-section">
+        <a id="userContainer" class="accordion-section-title" href="#accordion-2">User Data</a>
+        <div id="accordion-2" class="accordion-section-content">
+            <div class="row">
+                <canvas id="relationship" class="canvas" width="400" height="400"></canvas>
             </div>
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-2">Content Data</a>
-        <div id="accordion-2" class="accordion-section-content">
+        <a class="accordion-section-title" href="#accordion-3">Content Data</a>
+        <div id="accordion-3" class="accordion-section-content">
             
-            <div style="height: 400px; width: 50%">
-                <canvas id="replyData"width="500" height="350"></canvas>
+            <div class="row">
+                <canvas id="replyData" class="canvas" width="400" height="400"></canvas>
             </div>
             <div id="js-legend1" ></div>
-             <div style="height: 400px; width: 50%">
-                <canvas id="postsData" width="500" height="350"></canvas>
+             <div class="row">
+                <canvas id="postsData" class="canvas" width="400" height="400"></canvas>
             </div>
             <div id="js-legend2"></div>
 
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
     <div class="accordion-section">
-        <a class="accordion-section-title" href="#accordion-3">Developer Data</a>
-        <div id="accordion-3" class="accordion-section-content">
+        <a class="accordion-section-title" href="#accordion-4">Developer Data</a>
+        <div id="accordion-4" class="accordion-section-content">
             
-            <div style="height: 400px; width: 50%">
-                <canvas id="annualData"width="500" height="350"></canvas>
+            <div class="row">
+                <canvas id="annualData" class="canvas" width="400" height="400"></canvas>
             </div>
-             <div style="height: 400px; width: 50%">
-                <canvas id="prefData" width="500" height="350"></canvas>
+             <div class="row">
+                <canvas id="prefData" class="canvas" width="400" height="400"></canvas>
             </div>
             
             <div>
@@ -224,8 +226,9 @@
             }
         ]
     }
+    var options = { };
     var relationships = document.getElementById('relationship').getContext('2d');
-    new Chart(relationships).Bar(relationshipData);
+    new Chart(relationships).Bar(relationshipData, options);
 </script>
 
 <!-- Script to show reply data for your posts/activity on the platform broken into friends, followers and non connection -->
