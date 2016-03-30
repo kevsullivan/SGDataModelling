@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="View.ascx.cs" Inherits="DotNetNuke.Modules.SGDataModelling.View" %>
 <%@ Import Namespace="DotNetNuke.Modules.SGDataModelling.Components" %>
+<link type="text/css" rel="stylesheet" href="DesktopModules/SGDataModelling/bootstrap.css"/>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/Chart.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/d3.js"></script>
 <script src="http://kevinosullivan.info/portfolio/wp-content/uploads/2016/03/vis.js"></script>
@@ -38,7 +39,10 @@
         <a id="userContainer" class="accordion-section-title" href="#accordion-2">User Data</a>
         <div id="accordion-2" class="accordion-section-content">
             <div class="row">
-                <canvas id="relationship" class="canvas" width="400" height="400"></canvas>
+                <canvas id="relationship" class="canvas" width="500" height="400"></canvas>
+            </div>
+            <div class="row">
+                <canvas id="downloads" class="canvas" width="500" height="400"></canvas>
             </div>
         </div><!--end .accordion-section-content-->
     </div><!--end .accordion-section-->
@@ -148,9 +152,9 @@
     var genreDevDataDict = $.parseJSON('<%= QueryController.GetDevGenreTrend(Convert.ToInt32(txtUserId.Text))%>');
     var genreUsersDataDict = $.parseJSON('<%= QueryController.GetAllUsersGenreTrend()%>');
     if (
-            (Object.keys(genreDevDataDict).length === 0 && JSON.stringify(genreDevDataDict) === JSON.stringify({})) &&
-            (Object.keys(genreUsersDataDict).length === 0 && JSON.stringify(genreUsersDataDict) === JSON.stringify({}))
-       ) 
+        (Object.keys(genreDevDataDict).length === 0 && JSON.stringify(genreDevDataDict) === JSON.stringify({})) &&
+        (Object.keys(genreUsersDataDict).length === 0 && JSON.stringify(genreUsersDataDict) === JSON.stringify({}))
+    ) 
     {
         //No Dev or User Data Found so show feedback.
         var canvas = document.getElementById('prefData');
@@ -230,7 +234,45 @@
     var relationships = document.getElementById('relationship').getContext('2d');
     new Chart(relationships).Bar(relationshipData, options);
 </script>
+<!-- Legal/Illegal download count per genre for the user -->
+<script>
+    var userAge = <%= QueryController.GetAgeAvg(Convert.ToInt32(txtUserId.Text)).QueryValue%>;
+    var genreUsersDataDict = $.parseJSON('<%= QueryController.GetUserGenreTrend(Convert.ToInt32(txtUserId.Text))%>');
+    var genres = [], userData = [];
+    var genres2 = [], userLegalData = [], userIllegalData = [];
+    {
+        var userLegal = $.parseJSON('<%= QueryController.GetUserGenreTrendLegal(Convert.ToInt32(txtUserId.Text), Convert.ToInt32(txtAgeAvg.Text))%>');
+        var userIllegal = $.parseJSON('<%= QueryController.GetUserGenreTrendIllegal(Convert.ToInt32(txtUserId.Text), Convert.ToInt32(txtAgeAvg.Text))%>');
 
+        for (var key in userLegal) {
+            genres.push(key);
+            userLegalData.push(userLegal[key]);
+            userIllegalData.push(userIllegal[key]);
+        }
+    }
+
+    var relationshipData = {
+        labels: genres,
+        // Data set for users both over and under 18 years of age.
+        datasets: [
+            {
+                label: 'PEGI Legal #',
+                fillColor: '#0000ff',
+                // Data is pulled from code behind.
+                data: userLegalData
+            },
+            {
+                label: 'PEGI Illegal #',
+                fillColor: '#ff0066',
+                // Data is pulled from code behind.
+                data: userIllegalData
+            }
+        ]
+    }
+    var options = { };
+    var relationships = document.getElementById('downloads').getContext('2d');
+    new Chart(relationships).Bar(relationshipData, options);
+</script>
 <!-- Script to show reply data for your posts/activity on the platform broken into friends, followers and non connection -->
 <script>
     //TODO: Right Now the counts on replies could possibly return duplicated values if a users is both friend and follower - this is something minor to address both work and precedence wise.

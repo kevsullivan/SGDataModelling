@@ -93,6 +93,23 @@ namespace DotNetNuke.Modules.SGDataModelling.Components
             return jSer.Serialize(genreData.GenreData);
         }
 
+        public static string GetUserGenreTrendLegal(int userId, int age)
+        {
+
+            var genreData = CBO.FillObject<GenreStats>(DataProvider.Instance().GetUserGenreTrendLegal(userId, age));
+
+            var jSer = new JavaScriptSerializer();
+            return jSer.Serialize(genreData.GenreData);
+        }
+
+        public static string GetUserGenreTrendIllegal(int userId, int age)
+        {
+
+            var genreData = CBO.FillObject<GenreStats>(DataProvider.Instance().GetUserGenreTrendIllegal(userId, age));
+
+            var jSer = new JavaScriptSerializer();
+            return jSer.Serialize(genreData.GenreData);
+        }
         public static string GetAllUsersGenreTrend()
         {
 

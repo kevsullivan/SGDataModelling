@@ -211,6 +211,16 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserGenreTrend", new SqlParameter("@UserId", userId));
         }
 
+        public override IDataReader GetUserGenreTrendLegal(int userId, int age)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserLegalGenreTrend", new SqlParameter("@UserId", userId), new SqlParameter("@Age", age));
+        }
+
+        public override IDataReader GetUserGenreTrendIllegal(int userId, int age)
+        {
+            return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetUserIllegalGenreTrend", new SqlParameter("@UserId", userId), new SqlParameter("@Age", age));
+        }
+
         public override IDataReader GetAllUsersGenreTrend()
         {
             return SqlHelper.ExecuteReader(ConnectionString, NamePrefix + "GetAllUsersGenreTrend");

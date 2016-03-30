@@ -110,6 +110,10 @@ namespace DotNetNuke.Modules.SGDataModelling.Data
 
         public abstract IDataReader GetUserGenreTrend(int userId);
 
+        public abstract IDataReader GetUserGenreTrendLegal(int userId, int age);
+
+        public abstract IDataReader GetUserGenreTrendIllegal(int userId, int age);
+
         public abstract IDataReader GetAllUsersGenreTrend();
 
         public abstract IDataReader GetNumberUsers();
